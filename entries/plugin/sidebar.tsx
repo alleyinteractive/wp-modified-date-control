@@ -1,12 +1,18 @@
-import { Button, DateTimePicker, Dropdown } from '@wordpress/components';
+import { Button, DateTimePicker, Dropdown, FormToggle } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { PluginPostStatusInfo } from '@wordpress/edit-post';
 import { __ } from '@wordpress/i18n';
 import { dateI18n, getSettings } from '@wordpress/date';
+import { usePostMetaValue } from '@alleyinteractive/block-editor-tools';
 
 import { useMemo } from 'react';
 
 import styles from './sidebar.module.scss';
+
+/**
+ * Meta key for storing the user's preference to allow updates to the modified date.
+ */
+const META_KEY_ALLOW_UPDATES = 'wp_modified_date_control_allow_updates';
 
 /**
  * Sidebar to control the modified date for a post.
@@ -18,6 +24,7 @@ function Sidebar() {
   );
   const { editPost } = useDispatch('core/editor');
   const settings = getSettings();
+  const [allowUpdated, setAllowUpdated] = usePostMetaValue(META_KEY_ALLOW_UPDATES);
 
   // Mirrors Gutenberg's logic for determining if the time format is 12-hour.
   const is12HourTime = useMemo(() => /a(?!\\)/i.test(
@@ -30,35 +37,49 @@ function Sidebar() {
   ), [settings]);
 
   return (
-    <PluginPostStatusInfo>
-      <div className={`${styles.postModifiedRow} editor-post-status-info`}>
-        <div className="editor-post-panel__row-label">
-          {__('Modified', 'wp-modified-date-control')}
+    <>
+      <PluginPostStatusInfo>
+        <div className={`editor-post-status-info ${styles.postModifiedRow}`}>
+          <div className="editor-post-panel__row-label">
+            {__('Modified', 'wp-modified-date-control')}
+          </div>
+          <div className="editor-post-panel__row-control">
+            <Dropdown
+              renderToggle={({ isOpen, onToggle }) => (
+                <Button
+                  variant="tertiary"
+                  onClick={onToggle}
+                  aria-expanded={isOpen}
+                >
+                  {modifiedDate
+                    ? dateI18n(`${settings.formats.date} ${settings.formats.time}`, modifiedDate, undefined)
+                    : __('Not set.', 'wp-modified-date-control')}
+                </Button>
+              )}
+              renderContent={() => (
+                <DateTimePicker
+                  currentDate={modifiedDate}
+                  onChange={(date) => editPost({ modified: date })}
+                  is12Hour={is12HourTime}
+                />
+              )}
+            />
+          </div>
         </div>
-        <div className="editor-post-panel__row-control">
-          <Dropdown
-            renderToggle={({ isOpen, onToggle }) => (
-              <Button
-                variant="tertiary"
-                onClick={onToggle}
-                aria-expanded={isOpen}
-              >
-                {modifiedDate
-                  ? dateI18n(`${settings.formats.date} ${settings.formats.time}`, modifiedDate, undefined)
-                  : __('Not set.', 'wp-modified-date-control')}
-              </Button>
-            )}
-            renderContent={() => (
-              <DateTimePicker
-                currentDate={modifiedDate}
-                onChange={(date) => editPost({ modified: date })}
-                is12Hour={is12HourTime}
-              />
-            )}
+      </PluginPostStatusInfo>
+      <PluginPostStatusInfo>
+        <div className={`editor-post-status-info ${styles.postModifiedRow}`}>
+          <label htmlFor="wp-modified-date-control-allow-updates-to-modified">
+            {__('Allow Updates to Modified', 'wp-modified-date-control')}
+          </label>
+          <FormToggle
+            id="wp-modified-date-control-allow-updates-to-modified"
+            checked={allowUpdated}
+            onChange={() => setAllowUpdated(!allowUpdated)}
           />
         </div>
-      </div>
-    </PluginPostStatusInfo>
+      </PluginPostStatusInfo>
+    </>
   );
 }
 
