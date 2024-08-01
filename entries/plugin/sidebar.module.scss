@@ -1,0 +1,13 @@
+.postModifiedRow {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: calc(8px);
+  justify-content: space-between;
+  width: 100%;
+
+  button {
+    text-align: left;
+    white-space: unset;
+  }
+}
