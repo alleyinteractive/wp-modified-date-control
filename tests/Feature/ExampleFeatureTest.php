@@ -1,13 +1,13 @@
 <?php
 /**
- * Create WordPress Plugin Tests: Example Feature Test
+ * Modified Date Control Tests: Example Feature Test
  *
- * @package create-wordpress-plugin
+ * @package wp-modified-date-control
  */
 
-namespace Alley\WP\Create_WordPress_Plugin\Tests\Feature;
+namespace Alley\WP\Modified_Date_Control\Tests\Feature;
 
-use Alley\WP\Create_WordPress_Plugin\Tests\TestCase;
+use Alley\WP\Modified_Date_Control\Tests\TestCase;
 
 /**
  * A test suite for an example feature.

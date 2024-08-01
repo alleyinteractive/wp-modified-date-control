@@ -2,10 +2,10 @@
 /**
  * The main plugin function
  *
- * @package create-wordpress-plugin
+ * @package wp-modified-date-control
  */
 
-namespace Alley\WP\Create_WordPress_Plugin;
+namespace Alley\WP\Modified_Date_Control;
 
 use Alley\WP\Features\Group;
 

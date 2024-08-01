@@ -1,7 +1,7 @@
 {
-  "name": "create-wordpress-plugin",
+  "name": "wp-modified-date-control",
   "license": "GPL-2.0-or-later",
-  "main": "plugin.php",
+  "main": "wp-modified-date-control.php",
   "engines": {
     "node": "20",
     "npm": "10"
@@ -12,9 +12,9 @@
   ],
   "scripts": {
     "build": "alley-build build",
-    "create-block": "npx @alleyinteractive/create-block@latest -n create-wordpress-plugin",
-    "create-entry": "npx @alleyinteractive/create-entry@latest -n create-wordpress-plugin -t create-wordpress-plugin",
-    "create-slotfill": "npx @alleyinteractive/create-entry -s -n create-wordpress-plugin -t create-wordpress-plugin",
+    "create-block": "npx @alleyinteractive/create-block@latest -n wp-modified-date-control",
+    "create-entry": "npx @alleyinteractive/create-entry@latest -n wp-modified-date-control -t wp-modified-date-control",
+    "create-slotfill": "npx @alleyinteractive/create-entry -s -n wp-modified-date-control -t wp-modified-date-control",
     "precheck-types": "check-node-version --package",
     "check-types": "tsc",
     "lint:fix": "eslint --ext .jsx --ext .js --ext .ts --ext .tsx . --fix",

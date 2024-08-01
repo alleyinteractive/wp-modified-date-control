@@ -1,16 +1,16 @@
 <?php
 /**
- * Create WordPress Plugin Tests: Base Test Class
+ * Modified Date Control Tests: Base Test Class
  *
- * @package create-wordpress-plugin
+ * @package wp-modified-date-control
  */
 
-namespace Alley\WP\Create_WordPress_Plugin\Tests;
+namespace Alley\WP\Modified_Date_Control\Tests;
 
 use Mantle\Testkit\Test_Case as TestkitTest_Case;
 
 /**
- * Create WordPress Plugin Base Test Case
+ * Modified Date Control Base Test Case
  */
 abstract class TestCase extends TestkitTest_Case {
 

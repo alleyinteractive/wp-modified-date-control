@@ -1,17 +1,17 @@
 {
-    "name": "alleyinteractive/create-wordpress-plugin",
-    "description": "A skeleton WordPress plugin",
+    "name": "alleyinteractive/wp-modified-date-control",
+    "description": "Control the modified date for a post with Gutenberg.",
     "type": "wordpress-plugin",
     "keywords": [
         "alleyinteractive",
-        "create-wordpress-plugin"
+        "wp-modified-date-control"
     ],
-    "homepage": "https://github.com/alleyinteractive/create-wordpress-plugin",
+    "homepage": "https://github.com/alleyinteractive/wp-modified-date-control",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
-            "name": "author_name",
-            "email": "email@domain.com"
+            "name": "Sean Fisher",
+            "email": "sean@alley.com"
         }
     ],
     "require": {
@@ -34,13 +34,13 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Alley\\WP\\Create_WordPress_Plugin\\Tests\\": "tests"
+            "Alley\\WP\\Modified_Date_Control\\Tests\\": "tests"
         }
     },
     "extra": {
         "wordpress-autoloader": {
             "autoload": {
-                "Alley\\WP\\Create_WordPress_Plugin\\": "src"
+                "Alley\\WP\\Modified_Date_Control\\": "src"
             }
         }
     },

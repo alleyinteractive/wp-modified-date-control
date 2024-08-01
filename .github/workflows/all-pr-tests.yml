@@ -44,4 +44,5 @@ jobs:
         with:
           php-version: '${{ matrix.php }}'
           wordpress-version: '${{ matrix.wordpress }}'
+          skip-services: 'true'
           skip-wordpress-install: 'true'

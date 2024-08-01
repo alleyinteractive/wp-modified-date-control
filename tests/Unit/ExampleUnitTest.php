@@ -1,11 +1,11 @@
 <?php
 /**
- * Create WordPress Plugin Tests: Example Unit Test
+ * Modified Date Control Tests: Example Unit Test
  *
- * @package create-wordpress-plugin
+ * @package wp-modified-date-control
  */
 
-namespace Alley\WP\Create_WordPress_Plugin\Tests\Unit;
+namespace Alley\WP\Modified_Date_Control\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
