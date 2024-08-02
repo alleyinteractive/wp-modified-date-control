@@ -14,14 +14,13 @@ Requires PHP: 8.1
 
 License: GPL v2 or later
 
-[![Coding Standards](https://github.com/alleyinteractive/wp-modified-date-control/actions/workflows/coding-standards.yml/badge.svg)](https://github.com/alleyinteractive/wp-modified-date-control/actions/workflows/coding-standards.yml)
-[![Testing Suite](https://github.com/alleyinteractive/wp-modified-date-control/actions/workflows/unit-test.yml/badge.svg)](https://github.com/alleyinteractive/wp-modified-date-control/actions/workflows/unit-test.yml)
+[![Testing Suite]](https://github.com/alleyinteractive/wp-modified-date-control/actions/workflows/all-pr-tests.yml/badge.svg)](https://github.com/alleyinteractive/wp-modified-date-control/actions/workflows/all-pr-tests.yml)
 
-Control the modified date for a post with Gutenberg..
+Control the modified date for a post with Gutenberg.
 
 ## Installation
 
-You can install the package via composer:
+You can install the package via Composer:
 
 ```bash
 composer require alleyinteractive/wp-modified-date-control
@@ -29,11 +28,29 @@ composer require alleyinteractive/wp-modified-date-control
 
 ## Usage
 
-Activate the plugin in WordPress and use it like so:
+Activate the plugin in WordPress and you will see a new panel available under
+the "Summary" section in Gutenberg:
+
+![Screenshot](./assets/screenshot.png)
+
+The panel will allow you to set a modified date for a post or allow the modified
+date to be set to the current date and time upon update. Out of the box, the
+plugin will continue to allow updates to the modified date unless disabled on a
+per-post basis.
+
+### Filters
+
+#### `wp_modified_date_control_prevent_updates`
+
+Modify the default behavior of the plugin to allow/deny updates to the modified
+date. By default, the plugin will prevent updates if the meta to allow updates
+is set to `'false'`. This filter allows you to override that behavior.
 
 ```php
-$plugin = Create_WordPress_Plugin\Modified_Date_Control\Modified_Date_Control();
-$plugin->perform_magic();
+add_filter( 'wp_modified_date_control_prevent_updates', function( bool $prevent, int $post_id, ?\WP_REST_Request $request ) {
+	// Always allow updates to the modified date.
+	return false;
+}, 10, 3 );
 ```
 
 ## Testing
@@ -47,77 +64,6 @@ happen when running development or production builds.
 Run `composer test` to run tests against PHPUnit and the PHP code in the plugin.
 Unit testing code is written in PSR-4 format and can be found in the `tests`
 directory.
-
-### The `entries` directory and entry points
-
-All directories created in the `entries` directory can serve as entry points and will be compiled with [@wordpress/scripts](https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/README.md#scripts) into the `build` directory with an accompanied `index.asset.php` asset map.
-
-#### Scaffolding an entry point
-
-To generate a new entry point, run the following command:
-
-```sh
-npm run create-entry
-```
-
-To generate a new slotfill, run the following command:
-
-```sh
-npm run create-slotfill
-```
-
-The command will prompt the user through several options for creating an entry or slotfill. The entries are scaffolded with the `@alleyinteractive/create-entry` script. Run the help command to see all the options:
-
-```sh
-npx @alleyinteractive/create-entry --help
-```
-[Visit the package README](https://www.npmjs.com/package/@alleyinteractive/create-entry) for more information.
-
-#### Enqueuing Entry Points
-
-You can also include an `index.php` file in the entry point directory for enqueueing or registering a script. This file will then be moved to the build directory and will be auto-loaded with the `load_scripts()` function in the `functions.php` file. Alternatively, if a script is to be enqueued elsewhere there are helper functions in the `src/assets.php` file for getting the assets.
-
-### Scaffold a dynamic block with `create-block`
-
-Use the `create-block` command to create custom blocks with [@alleyinteractive/create-block](https://github.com/alleyinteractive/alley-scripts/tree/main/packages/create-block) script and follow the prompts to generate all the block assets in the `blocks/` directory.
-Block registration, script creation, etc will be scaffolded from the `create-block` script. Run `npm run build` to compile and build the custom block. Blocks are enqueued using the `load_scripts()` function in `src/assets.php`.
-
-### Updating WP Dependencies
-
-Update the [WordPress dependency packages](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/#packages-update) used in the project to their latest version.
-
-To update `@wordpress` dependencies to their latest version use the packages-update command:
-
-```sh
-npx wp-scripts packages-update
-```
-
-This script provides the following custom options:
-
--   `--dist-tag` – allows specifying a custom dist-tag when updating npm packages. Defaults to `latest`. This is especially useful when using [`@wordpress/dependency-extraction-webpack-plugin`](https://www.npmjs.com/package/@wordpress/dependency-extraction-webpack-plugin). It lets installing the npm dependencies at versions used by the given WordPress major version for local testing, etc. Example:
-
-```sh
-npx wp-scripts packages-update --dist-tag=wp-WPVERSION`
-```
-
-Where `WPVERSION` is the version of WordPress you are targeting. The version
-must include both the major and minor version (e.g., `6.1`). For example:
-
-```sh
-npx wp-scripts packages-update --dist-tag=wp-6.1`
-```
-
-## Releasing the Plugin
-
-The plugin uses a [built release workflow](./.github/workflows/built-release.yml)
-to compile and tag releases. Whenever a new version is detected in the root
-`composer.json` file or in the plugin's headers, the workflow will automatically
-build the plugin and tag it with a new version. The built tag will contain all
-the required front-end assets the plugin may require. This works well for
-publishing to WordPress.org or for submodule-ing.
-
-When you are ready to release a new version of the plugin, you can run
-`npm run release` to start the process of setting up a new release.
 
 ## Changelog
 

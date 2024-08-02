@@ -121,6 +121,6 @@ class Modified_Date_Feature extends Hookable_Feature {
 		 * @param int  $post_id        The post ID.
 		 * @param WP_REST_Request|null $request The REST request.
 		 */
-		return apply_filters( 'wp_modified_date_control_allow_updates', $value, $post_id, $this->rest_request );
+		return apply_filters( 'wp_modified_date_control_prevent_updates', $value, $post_id, $this->rest_request );
 	}
 }
