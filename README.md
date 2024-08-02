@@ -38,6 +38,12 @@ date to be set to the current date and time upon update. Out of the box, the
 plugin will continue to allow updates to the modified date unless disabled on a
 per-post basis.
 
+If you check `Allow Updates to Modified`, the modified date will be set to the
+current date and time when the post is updated. You will be unable to set your
+own modified date. If you uncheck the box, you will be able to set your own
+modified date. Saving the post will not cause the modified date to be updated,
+either, unless you manually updated it.
+
 ### Filters
 
 #### `wp_modified_date_control_default_allow_updates`
