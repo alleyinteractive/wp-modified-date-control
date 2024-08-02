@@ -44,6 +44,9 @@ own modified date. If you uncheck the box, you will be able to set your own
 modified date. Saving the post will not cause the modified date to be updated,
 either, unless you manually updated it.
 
+> [!NOTE]
+> This plugin does not have support for non-Gutenberg editors.
+
 ### Filters
 
 #### `wp_modified_date_control_default_allow_updates`
