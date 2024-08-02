@@ -11,3 +11,25 @@
     white-space: unset;
   }
 }
+
+.postModifiedPopover {
+  min-width: 320px;
+  padding: 16px;
+}
+
+.postModifiedPopoverHeader {
+  display: flex;
+
+  h3 {
+    line-height: 1.2;
+    margin: 0px;
+    color: rgb(30, 30, 30);
+    font-size: calc(13px);
+    font-weight: 600;
+    display: block;
+  }
+
+  button {
+    margin-left: auto;
+  }
+}

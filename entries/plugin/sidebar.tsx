@@ -1,4 +1,10 @@
-import { Button, DateTimePicker, Dropdown, FormToggle } from '@wordpress/components';
+import {
+  Button,
+  DateTimePicker,
+  Dropdown,
+  FormToggle,
+  Tooltip,
+} from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { PluginPostStatusInfo } from '@wordpress/edit-post';
 import { __ } from '@wordpress/i18n';
@@ -21,10 +27,11 @@ function Sidebar() {
   // Retrieve the post's modified date from Gutenberg.
   const modifiedDate = useSelect(
     (select) => (select('core/editor') as any).getEditedPostAttribute('modified'),
+    [],
   );
   const { editPost } = useDispatch('core/editor');
   const settings = getSettings();
-  const [allowUpdated, setAllowUpdated] = usePostMetaValue(META_KEY_ALLOW_UPDATES);
+  const [allowUpdates, setAllowUpdates] = usePostMetaValue(META_KEY_ALLOW_UPDATES);
 
   // Mirrors Gutenberg's logic for determining if the time format is 12-hour.
   const is12HourTime = useMemo(() => /a(?!\\)/i.test(
@@ -50,6 +57,7 @@ function Sidebar() {
                   variant="tertiary"
                   onClick={onToggle}
                   aria-expanded={isOpen}
+                  disabled={allowUpdates}
                 >
                   {modifiedDate
                     ? dateI18n(`${settings.formats.date} ${settings.formats.time}`, modifiedDate, undefined)
@@ -57,11 +65,24 @@ function Sidebar() {
                 </Button>
               )}
               renderContent={() => (
-                <DateTimePicker
-                  currentDate={modifiedDate}
-                  onChange={(date) => editPost({ modified: date })}
-                  is12Hour={is12HourTime}
-                />
+                <div className={styles.postModifiedPopover}>
+                  <div className={styles.postModifiedPopoverHeader}>
+                    <h3>
+                      {__('Modified Date', 'wp-modified-date-control')}
+                    </h3>
+                    <Button
+                      variant="tertiary"
+                      onClick={() => editPost({ modified: undefined })}
+                    >
+                      {__('Now', 'wp-modified-date-control')}
+                    </Button>
+                  </div>
+                  <DateTimePicker
+                    currentDate={modifiedDate}
+                    onChange={(date) => editPost({ modified: date })}
+                    is12Hour={is12HourTime}
+                  />
+                </div>
               )}
             />
           </div>
@@ -72,11 +93,13 @@ function Sidebar() {
           <label htmlFor="wp-modified-date-control-allow-updates-to-modified">
             {__('Allow Updates to Modified', 'wp-modified-date-control')}
           </label>
-          <FormToggle
-            id="wp-modified-date-control-allow-updates-to-modified"
-            checked={allowUpdated}
-            onChange={() => setAllowUpdated(!allowUpdated)}
-          />
+          <Tooltip text={__('When enabled, the modified date will be updated when the post is saved.', 'wp-modified-date-control')}>
+            <FormToggle
+              id="wp-modified-date-control-allow-updates-to-modified"
+              checked={allowUpdates}
+              onChange={() => setAllowUpdates(!allowUpdates)}
+            />
+          </Tooltip>
         </div>
       </PluginPostStatusInfo>
     </>
