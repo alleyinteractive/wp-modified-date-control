@@ -1,6 +1,6 @@
 <?php
 /**
- * Manager class file
+ * Modified_Date_Feature class file
  *
  * @package wp-modified-date-control
  */
@@ -8,30 +8,18 @@
 namespace Alley\WP\Modified_Date_Control;
 
 use Mantle\Support\Attributes\Filter;
-use Mantle\Support\Traits\Hookable;
-use Mantle\Support\Traits\Singleton;
 use WP_REST_Request;
 
 /**
- * Modified Date Control functionality.
+ * Modified Date Control Feature
  */
-class Manager {
-	use Hookable;
-	use Singleton;
-
+class Modified_Date_Feature extends Hookable_Feature {
 	/**
 	 * REST Request from the dispatcher.
 	 *
 	 * @var WP_REST_Request|null
 	 */
 	protected ?WP_REST_Request $rest_request = null;
-
-	/**
-	 * Constructor.
-	 */
-	protected function __construct() {
-		$this->register_hooks();
-	}
 
 	/**
 	 * Listen for REST requests to update the modified date.

@@ -6,16 +6,17 @@
  * Version: 0.0.0
  * Author: Sean Fisher
  * Author URI: https://github.com/alleyinteractive/wp-modified-date-control
- * Requires at least: 5.9
- * Tested up to: 6.2
+ * Requires at least: 6.0
+ * Tested up to: 6.6
  *
  * Text Domain: wp-modified-date-control
- * Domain Path: /languages/
  *
  * @package wp-modified-date-control
  */
 
 namespace Alley\WP\Modified_Date_Control;
+
+use Alley\WP\Features\Group;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -58,5 +59,5 @@ require_once __DIR__ . '/src/meta.php';
 // Load the plugin's assets.
 load_scripts();
 
-// Load the plugin's manager.
-Manager::instance();
+// Load the plugin's features.
+( new Group( new Modified_Date_Feature() ) )->boot();
