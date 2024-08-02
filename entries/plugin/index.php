@@ -15,7 +15,7 @@
 /**
  * Register the plugin entry point assets so that they can be enqueued.
  */
-function wp_modified_date_control_register_plugin_scripts() {
+function wp_modified_date_control_register_plugin_scripts(): void {
 	// Automatically load dependencies and version.
 	$asset_file = include __DIR__ . '/index.asset.php';
 
@@ -40,17 +40,10 @@ function wp_modified_date_control_register_plugin_scripts() {
 add_action( 'init', 'wp_modified_date_control_register_plugin_scripts' );
 
 /**
- * Enqueue scripts for the plugin entry point.
+ * Enqueue styles/scripts for the plugin entry point.
  */
-function wp_modified_date_control_enqueue_plugin_scripts() {
+function wp_modified_date_control_enqueue_plugin(): void {
 	wp_enqueue_script( 'wp-modified-date-control-plugin-js' );
-}
-add_action( 'enqueue_block_assets', 'wp_modified_date_control_enqueue_plugin_scripts' );
-
-/**
- * Enqueue styles for the plugin entry point.
- */
-function wp_modified_date_control_enqueue_plugin_styles() {
 	wp_enqueue_style( 'wp-modified-date-control-plugin-css' );
 }
-add_action( 'enqueue_block_assets', 'wp_modified_date_control_enqueue_plugin_styles' );
+add_action( 'enqueue_block_assets', 'wp_modified_date_control_enqueue_plugin' );
