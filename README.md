@@ -40,6 +40,17 @@ per-post basis.
 
 ### Filters
 
+#### `wp_modified_date_control_default_allow_updates`
+
+Modify the default meta value to allow updates to the modified date. By default,
+the plugin will return true and allow updates to the modified date. This filter
+allows you to override that behavior.
+
+```php
+// Disable updates to the modified date by default.
+add_filter( 'wp_modified_date_control_default_allow_updates', fn () => false );
+```
+
 #### `wp_modified_date_control_prevent_updates`
 
 Modify the default behavior of the plugin to allow/deny updates to the modified
