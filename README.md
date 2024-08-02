@@ -14,7 +14,7 @@ Requires PHP: 8.1
 
 License: GPL v2 or later
 
-[![Testing Suite]](https://github.com/alleyinteractive/wp-modified-date-control/actions/workflows/all-pr-tests.yml/badge.svg)](https://github.com/alleyinteractive/wp-modified-date-control/actions/workflows/all-pr-tests.yml)
+[![Testing Suite](https://github.com/alleyinteractive/wp-modified-date-control/actions/workflows/all-pr-tests.yml/badge.svg)](https://github.com/alleyinteractive/wp-modified-date-control/actions/workflows/all-pr-tests.yml)
 
 Control the modified date for a post with Gutenberg.
 
