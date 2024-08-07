@@ -1,7 +1,0 @@
-{
-  "core_term_meta": true,
-  "domain": "wp-modified-date-control",
-  "folder": "src",
-  "namespace": "Create_WordPress_Plugin",
-  "require_path": "__DIR__"
-}

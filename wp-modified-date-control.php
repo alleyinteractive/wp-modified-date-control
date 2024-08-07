@@ -3,19 +3,20 @@
  * Plugin Name: Modified Date Control
  * Plugin URI: https://github.com/alleyinteractive/wp-modified-date-control
  * Description: Control the modified date for a post with Gutenberg.
- * Version: 0.0.0
+ * Version: 1.0.0
  * Author: Sean Fisher
  * Author URI: https://github.com/alleyinteractive/wp-modified-date-control
- * Requires at least: 5.9
- * Tested up to: 6.2
+ * Requires at least: 6.0
+ * Tested up to: 6.6
  *
  * Text Domain: wp-modified-date-control
- * Domain Path: /languages/
  *
  * @package wp-modified-date-control
  */
 
 namespace Alley\WP\Modified_Date_Control;
+
+use Alley\WP\Features\Group;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -54,8 +55,9 @@ if ( ! file_exists( __DIR__ . '/vendor/wordpress-autoload.php' ) ) {
 // Load the plugin's main files.
 require_once __DIR__ . '/src/assets.php';
 require_once __DIR__ . '/src/meta.php';
-require_once __DIR__ . '/src/main.php';
 
+// Load the plugin's assets.
 load_scripts();
-register_post_meta_from_defs();
-main();
+
+// Load the plugin's features.
+( new Group( new Modified_Date_Feature() ) )->boot();

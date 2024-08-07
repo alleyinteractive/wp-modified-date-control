@@ -2,6 +2,6 @@
 
 All notable changes to `Modified Date Control` will be documented in this file.
 
-## 0.1.0 - 202X-XX-XX
+## 1.0.0 - 2024-08-02
 
 - Initial release
