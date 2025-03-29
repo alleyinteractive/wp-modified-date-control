@@ -52,7 +52,7 @@
     "@wordpress/plugins": "^6.10.14",
     "dompurify": "^3.2.4",
     "prop-types": "^15.8.1",
-    "react": "19.0.0",
+    "react": "19.1.0",
     "react-dom": "18.3.1"
   },
   "devDependencies": {
