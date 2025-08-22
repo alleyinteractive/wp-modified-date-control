@@ -47,6 +47,31 @@ jobs:
           skip-services: 'true'
           skip-wordpress-install: 'true'
 
+      - name: Install Playwright Browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Install and start wp-env
+        timeout-minutes: 5
+        run: |
+          npm install --global @wordpress/env
+          wp-env start
+
+          # Wait for the server to be ready
+          while ! curl -s http://localhost:8888 > /dev/null; do
+            sleep 1
+          done
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+
   all-pr-checks-passed:
     name: All PR checks passed
     needs:
