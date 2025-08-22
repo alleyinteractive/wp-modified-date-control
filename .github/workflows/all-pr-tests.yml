@@ -71,7 +71,6 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-
   all-pr-checks-passed:
     name: All PR checks passed
     needs:
