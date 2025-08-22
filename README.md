@@ -51,9 +51,11 @@ either, unless you manually updated it.
 
 #### `wp_modified_date_control_default_allow_updates`
 
-Modify the default meta value to allow updates to the modified date. By default,
-the plugin will return true and allow updates to the modified date. This filter
-allows you to override that behavior.
+Modify the default state of allowing updates to a post's modified date when
+saving the post.
+
+Defaults to true. Changing this to `false` would prevent updates to the modified
+date unless the user opts into it.
 
 ```php
 // Disable updates to the modified date by default.
