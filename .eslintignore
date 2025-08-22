@@ -1,2 +1,5 @@
 build
 vendor
+tests
+test-results
+playwright-report

@@ -23,7 +23,16 @@ output.log
 phpstan.neon
 phpunit.xml
 tests
+test-results
 Thumbs.db
 tsconfig.eslint.json
 tsconfig.json
 wp-cli.local.yml
+.wp-env.json
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+playwright.config.ts
