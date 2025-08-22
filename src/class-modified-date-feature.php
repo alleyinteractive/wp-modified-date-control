@@ -10,6 +10,8 @@ namespace Alley\WP\Modified_Date_Control;
 use Mantle\Support\Attributes\Filter;
 use WP_REST_Request;
 
+use function Mantle\Support\Helpers\mixed;
+
 /**
  * Modified Date Control Feature
  */
@@ -18,7 +20,11 @@ class Modified_Date_Feature extends Hookable_Feature {
 	 * REST Request from the dispatcher.
 	 *
 	 * @var WP_REST_Request|null
-	 * @phpstan-var WP_REST_Request<array{modified?: string, meta: array<string, mixed>, id?: int}>|null
+	 * @phpstan-var WP_REST_Request<array{
+	 *   id?: integer,
+	 *   modified?: string,
+	 *   meta?: array<string, mixed>,
+	 * }>|null
 	 */
 	protected ?WP_REST_Request $rest_request = null;
 
@@ -64,31 +70,34 @@ class Modified_Date_Feature extends Hookable_Feature {
 	 */
 	#[Filter( 'wp_insert_post_data' )]
 	public function filter_insert_data( $data, $postarr ): array {
-		// Ignore updates without a post ID, if the post is not published, OR if
-		// the post type is not queryable.
-		if (
-			! isset( $postarr['ID'] )
-			|| ! $postarr['ID']
-			|| ( isset( $data['post_status'] ) && 'publish' !== $data['post_status'] )
-			|| ( isset( $data['post_type'] ) && ! get_post_type_object( (string) $data['post_type'] )?->public ) // @phpstan-ignore-line cast.string
-		) {
+		if ( ! isset( $postarr['ID'] ) || ! is_numeric( $postarr['ID'] ) ) {
 			return $data;
 		}
 
-		if ( is_int( $postarr['ID'] ) && $this->should_prevent_updates( $postarr['ID'] ) ) {
-			// Prevent updates to the modified date.
-			unset( $data['post_modified'], $data['post_modified_gmt'] );
+		// If the post type is not public, do not get involved.
+		if ( isset( $data['post_type'] ) && ! get_post_type_object( (string) $data['post_type'] )?->public ) { // @phpstan-ignore-line cast.string
+			return $data;
+		}
 
-			// Check if the modified date was passed in the REST API request.
-			if (
-				$this->rest_request
-				&& isset( $this->rest_request['id'] )
-				&& $this->rest_request['id'] === $postarr['ID']
-				&& isset( $this->rest_request['modified'] )
-			) {
-				$data['post_modified']     = $this->rest_request['modified'];
-				$data['post_modified_gmt'] = get_gmt_from_date( (string) $this->rest_request['modified'] );
-			}
+		$post_id = (int) $postarr['ID'];
+
+		if ( ! $this->should_prevent_updates( $post_id ) ) {
+			return $data;
+		}
+
+		// Prevent updates to the modified date.
+		unset( $data['post_modified'], $data['post_modified_gmt'] );
+
+		// Check if the modified date was passed in the REST API request. If it
+		// was, set it here on the post.
+		if (
+			$this->rest_request
+			&& isset( $this->rest_request['id'] )
+			&& $this->rest_request['id'] === $post_id
+			&& isset( $this->rest_request['modified'] )
+		) {
+			$data['post_modified']     = $this->rest_request['modified'];
+			$data['post_modified_gmt'] = get_gmt_from_date( (string) $this->rest_request['modified'] );
 		}
 
 		return $data;
@@ -101,8 +110,8 @@ class Modified_Date_Feature extends Hookable_Feature {
 	 * @return bool
 	 */
 	protected function should_prevent_updates( int $post_id ): bool {
-		// Check if the REST request is present and is for this post. If so, use the
-		// request meta value if it was passed.
+		// Check if the REST request is present and is for this post. If so, use
+		// the request meta value if it was passed.
 		if (
 			$this->rest_request
 			&& isset( $this->rest_request['id'] )
@@ -110,9 +119,9 @@ class Modified_Date_Feature extends Hookable_Feature {
 			&& isset( $this->rest_request['meta'] )
 			&& isset( $this->rest_request['meta'][ META_KEY_ALLOW_UPDATES ] )
 		) {
-			$value = 'false' === $this->rest_request['meta'][ META_KEY_ALLOW_UPDATES ];
+			$value = ! mixed( $this->rest_request['meta'][ META_KEY_ALLOW_UPDATES ] )->boolean();
 		} else {
-			$value = 'false' === get_post_meta( $post_id, META_KEY_ALLOW_UPDATES, true );
+			$value = ! mixed( get_post_meta( $post_id, META_KEY_ALLOW_UPDATES, true ) )->boolean();
 		}
 
 		/**
