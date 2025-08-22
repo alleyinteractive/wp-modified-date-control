@@ -37,8 +37,7 @@
     "start:hot": "alley-build start --hot",
     "stylelint:fix": "stylelint --fix \"**/*.scss\"",
     "stylelint": "stylelint \"**/*.scss\" --allow-empty-input",
-    "test:watch": "jest --watch",
-    "test": "playwright test"
+    "test": "npm run lint"
   },
   "dependencies": {
     "@alleyinteractive/block-editor-tools": "^0.13.0",
