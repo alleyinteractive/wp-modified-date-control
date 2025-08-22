@@ -12,7 +12,6 @@ parameters:
 		- wp-modified-date-control.php
 
 	ignoreErrors:
-		- '#WP_REST_Request does not specify#'
 		- '#generic class WP_REST_Request#'
 #
 #    excludePaths:

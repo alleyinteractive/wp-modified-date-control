@@ -18,6 +18,7 @@ class Modified_Date_Feature extends Hookable_Feature {
 	 * REST Request from the dispatcher.
 	 *
 	 * @var WP_REST_Request|null
+	 * @phpstan-var WP_REST_Request<array{modified?: string, meta: array<string, mixed>, id?: int}>|null
 	 */
 	protected ?WP_REST_Request $rest_request = null;
 
@@ -69,7 +70,7 @@ class Modified_Date_Feature extends Hookable_Feature {
 			! isset( $postarr['ID'] )
 			|| ! $postarr['ID']
 			|| ( isset( $data['post_status'] ) && 'publish' !== $data['post_status'] )
-			|| ( isset( $data['post_type'] ) && ! get_post_type_object( $data['post_type'] )?->public )
+			|| ( isset( $data['post_type'] ) && ! get_post_type_object( (string) $data['post_type'] )?->public ) // @phpstan-ignore-line cast.string
 		) {
 			return $data;
 		}
@@ -86,7 +87,7 @@ class Modified_Date_Feature extends Hookable_Feature {
 				&& isset( $this->rest_request['modified'] )
 			) {
 				$data['post_modified']     = $this->rest_request['modified'];
-				$data['post_modified_gmt'] = get_gmt_from_date( $this->rest_request['modified'] );
+				$data['post_modified_gmt'] = get_gmt_from_date( (string) $this->rest_request['modified'] );
 			}
 		}
 
