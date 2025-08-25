@@ -24,3 +24,10 @@ Thumbs.db
 *.code-workspace
 .idea
 .vscode
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/tests/e2e/state.json

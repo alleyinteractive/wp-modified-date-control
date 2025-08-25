@@ -7,8 +7,8 @@ import {
 } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { PluginPostStatusInfo } from '@wordpress/edit-post';
-import { __ } from '@wordpress/i18n';
-import { dateI18n, getSettings } from '@wordpress/date';
+import { __, _x } from '@wordpress/i18n';
+import { dateI18n, getDate, getSettings } from '@wordpress/date';
 import { usePostMetaValue } from '@alleyinteractive/block-editor-tools';
 
 import { useMemo } from 'react';
@@ -29,6 +29,10 @@ function Sidebar() {
     (select) => (select('core/editor') as any).getEditedPostAttribute('modified'),
     [],
   );
+  const isPublished = useSelect(
+    (select) => (select('core/editor') as any).isCurrentPostPublished(),
+    [],
+  );
   const { editPost } = useDispatch('core/editor');
   const settings = getSettings();
   const [allowUpdates, setAllowUpdates] = usePostMetaValue(META_KEY_ALLOW_UPDATES);
@@ -43,10 +47,21 @@ function Sidebar() {
       .join(''), // Reverse the string and test for "a" not followed by a slash.
   ), [settings]);
 
+  const dateLabel = modifiedDate && !`${modifiedDate}`.startsWith('-000')
+    ? dateI18n(
+      // translators: Use a non-breaking space between 'g:i' and 'a' if appropriate.
+      _x('F j, Y g:i\xa0a', 'post schedule full date format', 'wp-modified-date-control'),
+      getDate(modifiedDate),
+    )
+    : __('Not set.', 'wp-modified-date-control');
+
   return (
     <>
       <PluginPostStatusInfo>
-        <div className={`editor-post-status-info ${styles.postModifiedRow}`}>
+        <div
+          className={`editor-post-status-info ${styles.postModifiedRow}`}
+          data-testid="wp-modified-date-modify-control"
+        >
           <div className="editor-post-panel__row-label">
             {__('Modified', 'wp-modified-date-control')}
           </div>
@@ -58,17 +73,19 @@ function Sidebar() {
                   onClick={onToggle}
                   aria-expanded={isOpen}
                   disabled={allowUpdates}
+                  data-testid="wp-modified-date-control-set-date-button"
                 >
-                  {modifiedDate
-                    ? dateI18n(`${settings.formats.date} ${settings.formats.time}`, modifiedDate, undefined)
-                    : __('Not set.', 'wp-modified-date-control')}
+                  {dateLabel}
                 </Button>
               )}
               renderContent={() => (
-                <div className={styles.postModifiedPopover}>
+                <div
+                  className={styles.postModifiedPopover}
+                  data-testid="wp-modified-date-control-date-popover"
+                >
                   <div className={styles.postModifiedPopoverHeader}>
                     <h3>
-                      {__('Modified Date', 'wp-modified-date-control')}
+                      {__('Set Modified Date', 'wp-modified-date-control')}
                     </h3>
                     <Button
                       variant="tertiary"
@@ -89,7 +106,10 @@ function Sidebar() {
         </div>
       </PluginPostStatusInfo>
       <PluginPostStatusInfo>
-        <div className={`editor-post-status-info ${styles.postModifiedRow}`}>
+        <div
+          className={`editor-post-status-info ${styles.postModifiedRow}`}
+          data-testid="wp-modified-date-control-allow-updates-panel"
+        >
           <label htmlFor="wp-modified-date-control-allow-updates-to-modified">
             {__('Allow Updates to Modified', 'wp-modified-date-control')}
           </label>
@@ -97,6 +117,7 @@ function Sidebar() {
             <FormToggle
               id="wp-modified-date-control-allow-updates-to-modified"
               checked={allowUpdates}
+              disabled={!isPublished}
               onChange={() => setAllowUpdates(!allowUpdates)}
             />
           </Tooltip>
