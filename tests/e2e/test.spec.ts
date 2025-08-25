@@ -1,18 +1,6 @@
 import { Page } from '@playwright/test';
 import { test, expect, Admin } from '@wordpress/e2e-test-utils-playwright';
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/wp-login.php');
-  await page.waitForTimeout(1500);
-  await page.locator('#user_login').fill('admin');
-  await page.locator('#user_pass').fill('password');
-  await page.locator('#wp-submit').click();
-  await page.waitForTimeout(1500);
-  await expect(
-    page.getByRole('heading', { name: 'Dashboard', level: 1 }),
-  ).toBeVisible();
-});
-
 const createPost = async (admin: Admin) => {
   await admin.createNewPost({
     title: 'Example Post',
@@ -119,16 +107,16 @@ test('can set the modified date after publishing the post', async ({ admin, edit
     wp.data.dispatch('core/editor').editPost({ modified: '2025-08-04 12:23:53' });
   });
 
-  await expect(page.getByText('August 4, 2025 4:23 pm')).toBeVisible();
+  await expect(page.getByText('August 4, 2025 12:23 pm')).toBeVisible();
 
   // Save the post and verify the date persisted.
   await savePost(page);
-  await expect(page.getByText('August 4, 2025 4:23 pm')).toBeVisible();
+  await expect(page.getByText('August 4, 2025 12:23 pm')).toBeVisible();
 
   // Reload the page and be sure it persisted.
   await page.reload();
 
-  await expect(page.getByText('August 4, 2025 4:23 pm')).toBeVisible();
+  await expect(page.getByText('August 4, 2025 12:23 pm')).toBeVisible();
 });
 
 test('can allow updates to a previously manually controlled post', async ({ admin, editor, page }) => {

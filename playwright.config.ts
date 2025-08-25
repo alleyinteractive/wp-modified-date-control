@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -30,8 +31,17 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'login',
+      testMatch: '**/*/setup.ts',
+      testDir: './tests/e2e',
+    },
+    {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      dependencies: ['login'],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: path.join(__dirname, './tests/e2e/state.json'),
+      },
     },
   ],
 
