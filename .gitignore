@@ -1,33 +1,38 @@
-# Build files
-build
-vendor
-composer.lock
-node_modules
-
-# Log files
-*.log
-
-# Cache files
-.phpcs/*.json
-.phpunit.result.cache
-
-# Ignore temporary OS files
 .DS_Store
-.DS_Store?
-.Spotlight-V100
-.Trashes
-ehthumbs.db
+.github
+.nvmrc
+.phpcs
+.phpcs.xml
+.phpcs.xml
+.phpunit.result.cache
+.stylelintrc.json
+*.sql
+*.tar.gz
+*.zip
+babel.config.js
+bin
+composer.lock
+configure.php
+DOCKER_ENV
+Dockerfile
+jest.config.js
+jsconfig.json
+Makefile
+node_modules/
+output.log
+phpstan.neon
+phpunit.xml
+tests
+test-results
 Thumbs.db
-.thumbsdb
-
-# IDE files
-*.code-workspace
-.idea
-.vscode
+tsconfig.eslint.json
+tsconfig.json
+wp-cli.local.yml
+.wp-env.json
 
 # Playwright
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/tests/e2e/state.json
+playwright.config.ts
