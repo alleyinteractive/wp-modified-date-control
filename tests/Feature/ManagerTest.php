@@ -12,12 +12,14 @@ namespace Alley\WP\Modified_Date_Control\Tests\Feature;
 use Alley\WP\Modified_Date_Control\Tests\TestCase;
 use Carbon\Carbon;
 use Mantle\Database\Model\Post;
+use Mantle\Testing\Attributes\Acting_As;
 
 use const Alley\WP\Modified_Date_Control\META_KEY_ALLOW_UPDATES;
 
 /**
  * A test suite for setting the modified date with the plugin.
  */
+#[Acting_As( 'administrator' )]
 class ManagerTest extends TestCase {
 	public const ORIGINAL_DATE = '2021-01-01 00:00:00';
 
@@ -45,8 +47,6 @@ class ManagerTest extends TestCase {
 	 * Ensure that a post can be saved normally and the modified date is updated.
 	 */
 	public function test_it_can_save_a_post_normally() {
-		$this->acting_as( 'administrator' );
-
 		$this->post( rest_url( 'wp/v2/posts/' . $this->post_id ), [
 			'title' => 'Updated Post Title',
 		] );
@@ -57,7 +57,7 @@ class ManagerTest extends TestCase {
 
 		// Potentially flaky test due to time comparison but we'll take it.
 		$this->assertTrue(
-			Carbon::parse( get_the_modified_date( self::DATE_FORMAT, $this->post_id ) )->isToday(),
+			Carbon::parse( get_the_modified_date( self::DATE_FORMAT, $this->post_id ), 'America/New_York' )->isToday(),
 		);
 	}
 
@@ -81,8 +81,6 @@ class ManagerTest extends TestCase {
 	 * Ensure that a post can be updated when updates are allowed.
 	 */
 	public function test_it_will_bump_the_modified_date_when_allowing_updates() {
-		$this->acting_as( 'administrator' );
-
 		update_post_meta( $this->post_id, META_KEY_ALLOW_UPDATES, 'false' );
 
 		$this->post( rest_url( 'wp/v2/posts/' . $this->post_id ), [
@@ -96,7 +94,7 @@ class ManagerTest extends TestCase {
 
 		// Potentially flaky test due to time comparison but we'll take it.
 		$this->assertTrue(
-			Carbon::parse( get_the_modified_date( self::DATE_FORMAT, $this->post_id ) )->isToday(),
+			Carbon::parse( get_the_modified_date( self::DATE_FORMAT, $this->post_id ), 'America/New_York' )->isToday(),
 		);
 	}
 
@@ -104,8 +102,6 @@ class ManagerTest extends TestCase {
 	 * Ensure that a post can be updated when updates are allowed.
 	 */
 	public function test_it_can_set_the_modified_date_from_the_rest_api() {
-		$this->acting_as( 'administrator' );
-
 		$expected = Carbon::now( 'America/New_York' )->setDateTime( 2023, 10, 3, 8, 35, 0, 0 );
 
 		$this->post( rest_url( 'wp/v2/posts/' . $this->post_id ), [
@@ -132,8 +128,6 @@ class ManagerTest extends TestCase {
 	 * allowed from already-set meta.
 	 */
 	public function test_it_ignores_modified_date_passed_when_allowing_updates_set() {
-		$this->acting_as( 'administrator' );
-
 		update_post_meta( $this->post_id, META_KEY_ALLOW_UPDATES, 'true' );
 
 		$this->post( rest_url( 'wp/v2/posts/' . $this->post_id ), [
@@ -149,8 +143,6 @@ class ManagerTest extends TestCase {
 	 * allowed from passed meta to the REST API.
 	 */
 	public function test_it_ignores_modified_date_passed_when_allowing_updates_passed() {
-		$this->acting_as( 'administrator' );
-
 		$this->post( rest_url( 'wp/v2/posts/' . $this->post_id ), [
 			'title'    => 'Updated Post Title',
 			'modified' => '2023-10-03 08:35:00',
