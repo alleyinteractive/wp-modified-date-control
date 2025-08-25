@@ -7,8 +7,8 @@ import {
 } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { PluginPostStatusInfo } from '@wordpress/edit-post';
-import { __ } from '@wordpress/i18n';
-import { dateI18n, getSettings } from '@wordpress/date';
+import { __, _x } from '@wordpress/i18n';
+import { dateI18n, getDate, getSettings } from '@wordpress/date';
 import { usePostMetaValue } from '@alleyinteractive/block-editor-tools';
 
 import { useMemo } from 'react';
@@ -47,6 +47,14 @@ function Sidebar() {
       .join(''), // Reverse the string and test for "a" not followed by a slash.
   ), [settings]);
 
+  const dateLabel = modifiedDate && !`${modifiedDate}`.startsWith('-000')
+    ? dateI18n(
+      // translators: Use a non-breaking space between 'g:i' and 'a' if appropriate.
+      _x('F j, Y g:i\xa0a', 'post schedule full date format', 'wp-modified-date-control'),
+      getDate(modifiedDate),
+    )
+    : __('Not set.', 'wp-modified-date-control');
+
   return (
     <>
       <PluginPostStatusInfo>
@@ -67,9 +75,7 @@ function Sidebar() {
                   disabled={allowUpdates}
                   data-testid="wp-modified-date-control-set-date-button"
                 >
-                  {modifiedDate && !`${modifiedDate}`.startsWith('-000')
-                    ? dateI18n(`${settings.formats.date} ${settings.formats.time}`, modifiedDate, undefined)
-                    : __('Not set.', 'wp-modified-date-control')}
+                  {dateLabel}
                 </Button>
               )}
               renderContent={() => (

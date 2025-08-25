@@ -150,7 +150,7 @@ test('can allow updates to a previously manually controlled post', async ({ admi
     });
   });
 
-  await expect(page.getByText('August 4, 2025 4:23 pm')).toBeVisible();
+  await expect(page.getByText('August 4, 2025 12:23 pm')).toBeVisible();
   await savePost(page);
 
   // Check the checkbox to allow updates to the post once saved.
@@ -158,7 +158,7 @@ test('can allow updates to a previously manually controlled post', async ({ admi
   await expect(button).toBeDisabled();
   await savePost(page);
 
-  // "August 4, 2025 4:23 pm" should not be found because the modified date
+  // "August 4, 2025 12:23 pm" should not be found because the modified date
   // should be "now".
-  await expect(page.getByText('August 4, 2025 4:23 pm')).not.toBeVisible();
+  await expect(page.getByText('August 4, 2025 12:23 pm')).not.toBeVisible();
 });
