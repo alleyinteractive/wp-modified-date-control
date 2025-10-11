@@ -61,7 +61,7 @@
     "@alleyinteractive/stylelint-config": "^0.0.2",
     "@alleyinteractive/tsconfig": "^0.3.0",
     "@babel/preset-env": "^7.25.0",
-    "@playwright/test": "^1.55.0",
+    "@playwright/test": "^1.56.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^24.3.0",
     "@types/wordpress__block-editor": "^11.5.11",
