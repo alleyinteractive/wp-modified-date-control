@@ -8,6 +8,7 @@
 namespace Alley\WP\Modified_Date_Control;
 
 use Mantle\Support\Attributes\Filter;
+use Mantle\Types\Hookable_Feature;
 use WP_REST_Request;
 
 use function Mantle\Support\Helpers\mixed;

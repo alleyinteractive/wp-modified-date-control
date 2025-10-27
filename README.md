@@ -4,7 +4,7 @@ Contributors: alleyinteractive
 
 Tags: alleyinteractive, wp-modified-date-control
 
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 
 Requires at least: 5.9
 
