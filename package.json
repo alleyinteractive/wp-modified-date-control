@@ -70,7 +70,7 @@
     "@types/wordpress__edit-post": "^8.4.2",
     "@wordpress/babel-preset-default": "^8.29.0",
     "@wordpress/e2e-test-utils-playwright": "^1.29.0",
-    "babel-jest": "^30.0.5",
+    "babel-jest": "^30.2.0",
     "check-node-version": "^4.2.1",
     "jest": "^30.0.5",
     "ts-jest": "^29.4.5",
