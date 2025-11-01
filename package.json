@@ -74,7 +74,7 @@
     "check-node-version": "^4.2.1",
     "jest": "^30.0.5",
     "ts-jest": "^29.4.5",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "webpack-cli": "^6.0.1"
   }
 }
