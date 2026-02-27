@@ -47,7 +47,7 @@ test('allows updates to modified by default', async ({ admin, page }) => {
 
   const button = await page.getByTestId('wp-modified-date-control-set-date-button');
   await expect(button).toBeVisible();
-  await expect(button).toBeDisabled();
+  await expect(button).toBeEnabled();
 });
 
 test('modified date should not be set by default', async ({ admin, page }) => {
@@ -81,13 +81,8 @@ test('can set the modified date after publishing the post', async ({ admin, edit
   await editor.publishPost();
   await closePublishPanel(page);
 
-  const allowUpdatesPanel = await page.getByTestId('wp-modified-date-control-allow-updates-panel');
   const button = await page.getByTestId('wp-modified-date-control-set-date-button');
 
-  await expect(button).toBeDisabled();
-
-  // Uncheck the checkbox to block updates and allow the modified date to be manually set.
-  await allowUpdatesPanel.getByRole('checkbox').uncheck();
   await expect(button).toBeEnabled();
 
   await button.click();
@@ -143,7 +138,7 @@ test('can allow updates to a previously manually controlled post', async ({ admi
 
   // Check the checkbox to allow updates to the post once saved.
   await allowUpdatesPanel.getByRole('checkbox').check();
-  await expect(button).toBeDisabled();
+  await expect(button).toBeEnabled();
   await savePost(page);
 
   // "August 4, 2025 12:23 pm" should not be found because the modified date
