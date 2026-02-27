@@ -3,42 +3,28 @@
   "license": "GPL-2.0-or-later",
   "main": "wp-modified-date-control.php",
   "engines": {
-    "node": "22",
-    "npm": "10"
+    "node": ">=22",
+    "npm": ">=10"
   },
-  "browserslist": [
-    "defaults",
-    "not IE 11"
-  ],
   "scripts": {
     "build": "alley-build build",
     "create-block": "npx @alleyinteractive/create-block@latest -n wp-modified-date-control",
     "create-entry": "npx @alleyinteractive/create-entry@latest -n wp-modified-date-control -t wp-modified-date-control",
     "create-slotfill": "npx @alleyinteractive/create-entry -s -n wp-modified-date-control -t wp-modified-date-control",
-    "dev": "npm run start",
-    "precheck-types": "check-node-version --package",
-    "check-types": "tsc",
-    "lint:fix": "eslint --ext .jsx --ext .js --ext .ts --ext .tsx . --fix",
-    "lint": "npm run check-types && eslint --ext .jsx --ext .js --ext .ts --ext .tsx .",
-    "packages-update": "alley-build packages-update --dist-tag=wp-6.4",
+    "check-types": "tsc --noEmit",
+    "eslint": "eslint --ext .jsx --ext .js --ext .ts --ext .tsx .",
+    "eslint:fix": "eslint --ext .jsx --ext .js --ext .ts --ext .tsx . --fix",
+    "jest": "jest --passWithNoTests",
+    "jest:watch": "jest --watch",
+    "packages-update": "alley-build packages-update --dist-tag=wp-6.7",
     "playwright": "npx playwright test",
     "postinstall": "rm -rf node_modules/.cache/babel-loader && rm -rf node_modules/.cache/webpack",
-    "prebuild": "check-node-version --package",
-    "preinstall": "check-node-version --package",
-    "prelint:fix": "check-node-version --package",
-    "prelint": "check-node-version --package",
-    "prestart": "check-node-version --package",
-    "prestylelint:fix": "check-node-version --package",
-    "prestylelint": "check-node-version --package",
-    "pretest:watch": "check-node-version --package",
-    "pretest": "check-node-version --package",
-    "prerelease": "check-node-version --package",
     "release": "npx @alleyinteractive/create-release@latest",
     "start": "alley-build start",
     "start:hot": "alley-build start --hot",
     "stylelint:fix": "stylelint --fix \"**/*.scss\"",
     "stylelint": "stylelint \"**/*.scss\" --allow-empty-input",
-    "test": "npm run lint"
+    "test": "npm run check-types && npm run eslint && npm run stylelint && npm run jest"
   },
   "dependencies": {
     "@alleyinteractive/block-editor-tools": "^0.14.0",
@@ -54,6 +40,12 @@
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/tests/e2e/"
+    ]
+  },
   "devDependencies": {
     "@alleyinteractive/build-tool": "^0.3.0",
     "@alleyinteractive/create-entry": "^0.0.4",
@@ -62,8 +54,6 @@
     "@alleyinteractive/tsconfig": "^0.3.0",
     "@babel/preset-env": "^7.25.0",
     "@playwright/test": "^1.56.1",
-    "@types/jest": "^29.5.12",
-    "@types/node": "^24.3.0",
     "@types/wordpress__block-editor": "^11.5.11",
     "@types/wordpress__blocks": "^12.5.13",
     "@types/wordpress__components": "^23.0.11",
@@ -71,8 +61,8 @@
     "@wordpress/babel-preset-default": "^8.29.0",
     "@wordpress/e2e-test-utils-playwright": "^1.29.0",
     "babel-jest": "^30.0.5",
-    "check-node-version": "^4.2.1",
     "jest": "^30.0.5",
+    "stylelint-config-sass-guidelines": "^13.0.0",
     "ts-jest": "^29.4.5",
     "typescript": "^5.9.2",
     "webpack-cli": "^6.0.1"

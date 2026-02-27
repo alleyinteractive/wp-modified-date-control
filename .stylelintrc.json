@@ -1,3 +1,6 @@
 {
-	"extends": "@alleyinteractive/stylelint-config"
+	"extends": "@alleyinteractive/stylelint-config",
+	"rules": {
+		"selector-class-pattern": null
+	}
 }

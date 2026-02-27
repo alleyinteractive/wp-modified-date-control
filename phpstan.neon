@@ -11,9 +11,6 @@ parameters:
 		- src/
 		- wp-modified-date-control.php
 
-	ignoreErrors:
-		- '#generic class WP_REST_Request#'
-#
 #    excludePaths:
 #        - ./*/*/FileToBeExcluded.php
 #
