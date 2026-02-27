@@ -73,7 +73,7 @@ function Sidebar() {
                   variant="tertiary"
                   onClick={onToggle}
                   aria-expanded={isOpen}
-                  disabled={allowUpdates}
+                  disabled={!allowUpdates}
                   data-testid="wp-modified-date-control-set-date-button"
                 >
                   {dateLabel}
