@@ -2,6 +2,10 @@
 
 All notable changes to `Modified Date Control` will be documented in this file.
 
+## v.1.1.1
+
+- Bump `alleyinteractive/wp-type-extensions` to `^3.0 || ^4.0`.
+
 ## v1.1.0
 
 - Bump `alleyinteractive/wp-type-extensions` to `^3.0`.
