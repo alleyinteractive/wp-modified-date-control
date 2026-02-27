@@ -47,11 +47,12 @@ function Sidebar() {
       .join(''), // Reverse the string and test for "a" not followed by a slash.
   ), [settings]);
 
-  const dateLabel = modifiedDate && !`${modifiedDate}`.startsWith('-000')
+  const dateLabel = modifiedDate && `${modifiedDate}`.indexOf('-000') !== 0
     ? dateI18n(
       // translators: Use a non-breaking space between 'g:i' and 'a' if appropriate.
       _x('F j, Y g:i\xa0a', 'post schedule full date format', 'wp-modified-date-control'),
       getDate(modifiedDate),
+      settings.timezone.string
     )
     : __('Not set.', 'wp-modified-date-control');
 
