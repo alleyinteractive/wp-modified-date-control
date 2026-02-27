@@ -3,6 +3,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "jsx": "react-jsx",
     "noImplicitAny": true,
     "outDir": "build",
     "paths": {
