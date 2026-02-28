@@ -55,7 +55,7 @@
     "@babel/preset-env": "^7.25.0",
     "@playwright/test": "^1.56.1",
     "@types/wordpress__block-editor": "^11.5.11",
-    "@types/wordpress__blocks": "^12.5.13",
+    "@types/wordpress__blocks": "^15.10.2",
     "@types/wordpress__components": "^23.0.11",
     "@types/wordpress__edit-post": "^8.4.2",
     "@wordpress/babel-preset-default": "^8.29.0",
