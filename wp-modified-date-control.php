@@ -7,7 +7,7 @@
  * Author: Sean Fisher
  * Author URI: https://github.com/alleyinteractive/wp-modified-date-control
  * Requires at least: 6.0
- * Requires PHP: 8.4
+ * Requires PHP: 8.3
  * Tested up to: 7.1
  *
  * Text Domain: wp-modified-date-control
