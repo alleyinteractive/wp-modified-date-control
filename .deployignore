@@ -22,6 +22,7 @@ node_modules/
 output.log
 phpstan.neon
 phpunit.xml
+rector.php
 tests
 test-results
 Thumbs.db

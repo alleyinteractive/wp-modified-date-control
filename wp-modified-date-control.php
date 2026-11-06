@@ -3,11 +3,12 @@
  * Plugin Name: Modified Date Control
  * Plugin URI: https://github.com/alleyinteractive/wp-modified-date-control
  * Description: Control the modified date for a post with Gutenberg.
- * Version: 1.1.1
+ * Version: 1.2.0
  * Author: Sean Fisher
  * Author URI: https://github.com/alleyinteractive/wp-modified-date-control
  * Requires at least: 6.0
- * Tested up to: 6.6
+ * Requires PHP: 8.3
+ * Tested up to: 7.1
  *
  * Text Domain: wp-modified-date-control
  *

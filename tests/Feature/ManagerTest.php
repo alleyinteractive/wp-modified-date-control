@@ -46,7 +46,7 @@ class ManagerTest extends TestCase {
 	/**
 	 * Ensure that a post can be saved normally and the modified date is updated.
 	 */
-	public function test_it_can_save_a_post_normally() {
+	public function test_it_can_save_a_post_normally(): void {
 		$this->post( rest_url( 'wp/v2/posts/' . $this->post_id ), [
 			'title' => 'Updated Post Title',
 		] );
@@ -65,7 +65,7 @@ class ManagerTest extends TestCase {
 	 * Ensure that a post can be prevent a modified date from being updated when
 	 * updates are prevented.
 	 */
-	public function test_it_can_prevent_modified_date_from_being_updated() {
+	public function test_it_can_prevent_modified_date_from_being_updated(): void {
 		$this->acting_as( 'administrator' );
 
 		update_post_meta( $this->post_id, META_KEY_ALLOW_UPDATES, 'false' );
@@ -80,7 +80,7 @@ class ManagerTest extends TestCase {
 	/**
 	 * Ensure that a post can be updated when updates are allowed.
 	 */
-	public function test_it_will_bump_the_modified_date_when_allowing_updates() {
+	public function test_it_will_bump_the_modified_date_when_allowing_updates(): void {
 		update_post_meta( $this->post_id, META_KEY_ALLOW_UPDATES, 'false' );
 
 		$this->post( rest_url( 'wp/v2/posts/' . $this->post_id ), [
@@ -101,7 +101,7 @@ class ManagerTest extends TestCase {
 	/**
 	 * Ensure that a post can be updated when updates are allowed.
 	 */
-	public function test_it_can_set_the_modified_date_from_the_rest_api() {
+	public function test_it_can_set_the_modified_date_from_the_rest_api(): void {
 		$expected = Carbon::now( 'America/New_York' )->setDateTime( 2023, 10, 3, 8, 35, 0, 0 );
 
 		$this->post( rest_url( 'wp/v2/posts/' . $this->post_id ), [
@@ -127,7 +127,7 @@ class ManagerTest extends TestCase {
 	 * Ensure that a post will ignore modified date passed when updates are
 	 * allowed from already-set meta.
 	 */
-	public function test_it_ignores_modified_date_passed_when_allowing_updates_set() {
+	public function test_it_ignores_modified_date_passed_when_allowing_updates_set(): void {
 		update_post_meta( $this->post_id, META_KEY_ALLOW_UPDATES, 'true' );
 
 		$this->post( rest_url( 'wp/v2/posts/' . $this->post_id ), [
@@ -142,7 +142,7 @@ class ManagerTest extends TestCase {
 	 * Ensure that a post will ignore modified date passed when updates are
 	 * allowed from passed meta to the REST API.
 	 */
-	public function test_it_ignores_modified_date_passed_when_allowing_updates_passed() {
+	public function test_it_ignores_modified_date_passed_when_allowing_updates_passed(): void {
 		$this->post( rest_url( 'wp/v2/posts/' . $this->post_id ), [
 			'title'    => 'Updated Post Title',
 			'modified' => '2023-10-03 08:35:00',
@@ -157,7 +157,7 @@ class ManagerTest extends TestCase {
 	/**
 	 * Ensure that a post will not update the modified date when a post is updated outside of the REST API.
 	 */
-	public function test_it_can_prevent_modified_date_update_outside_of_the_rest_api() {
+	public function test_it_can_prevent_modified_date_update_outside_of_the_rest_api(): void {
 		update_post_meta( $this->post_id, META_KEY_ALLOW_UPDATES, 'false' );
 
 		wp_update_post( [

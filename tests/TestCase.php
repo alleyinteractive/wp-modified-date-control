@@ -5,6 +5,8 @@
  * @package wp-modified-date-control
  */
 
+declare(strict_types=1);
+
 namespace Alley\WP\Modified_Date_Control\Tests;
 
 use Mantle\Testkit\TestCase as TestkitTest_Case;
