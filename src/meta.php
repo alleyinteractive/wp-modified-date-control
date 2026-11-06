@@ -13,7 +13,7 @@ namespace Alley\WP\Modified_Date_Control;
 const META_KEY_ALLOW_UPDATES = 'wp_modified_date_control_allow_updates';
 
 // Register the meta for the plugin.
-add_action( 'init', function () {
+add_action( 'init', function (): void {
 	register_meta( 'post', META_KEY_ALLOW_UPDATES, [
 		'type'         => 'boolean',
 		'description'  => __( 'Allow updates to the modified date.', 'wp-modified-date-control' ),

@@ -35,7 +35,6 @@ class Modified_Date_Feature extends Hookable_Feature {
 	 * @param mixed           $pre The pre value.
 	 * @param WP_REST_Request $data The request data.
 	 * @param string          $route The route.
-	 * @return mixed
 	 */
 	#[Filter( 'rest_dispatch_request', 999 )]
 	public function listen_for_rest_update( mixed $pre, WP_REST_Request $data, string $route ): mixed {
@@ -53,7 +52,6 @@ class Modified_Date_Feature extends Hookable_Feature {
 	 * Reset the REST request after callbacks have run.
 	 *
 	 * @param mixed $pre The pre value.
-	 * @return mixed
 	 */
 	#[Filter( 'rest_request_after_callbacks' )]
 	public function clear_rest_request_after_complete( mixed $pre ): mixed {
@@ -70,7 +68,7 @@ class Modified_Date_Feature extends Hookable_Feature {
 	 * @return array<mixed>
 	 */
 	#[Filter( 'wp_insert_post_data' )]
-	public function filter_insert_data( $data, $postarr ): array {
+	public function filter_insert_data( array $data, array $postarr ): array {
 		if ( ! isset( $postarr['ID'] ) || ! is_numeric( $postarr['ID'] ) ) {
 			return $data;
 		}
@@ -91,14 +89,13 @@ class Modified_Date_Feature extends Hookable_Feature {
 
 		// Check if the modified date was passed in the REST API request. If it
 		// was, set it here on the post.
-		if (
-			$this->rest_request
-			&& isset( $this->rest_request['id'] )
-			&& $this->rest_request['id'] === $post_id
-			&& isset( $this->rest_request['modified'] )
-		) {
-			$data['post_modified']     = $this->rest_request['modified'];
-			$data['post_modified_gmt'] = get_gmt_from_date( (string) $this->rest_request['modified'] );
+		$modified = $this->rest_request instanceof WP_REST_Request && isset( $this->rest_request['id'] ) && $this->rest_request['id'] === $post_id
+			? $this->rest_request['modified']
+			: null;
+
+		if ( is_string( $modified ) ) {
+			$data['post_modified']     = $modified;
+			$data['post_modified_gmt'] = get_gmt_from_date( $modified );
 		}
 
 		return $data;
@@ -108,13 +105,12 @@ class Modified_Date_Feature extends Hookable_Feature {
 	 * Determine if updates should be prevented.
 	 *
 	 * @param int $post_id The post ID.
-	 * @return bool
 	 */
 	protected function should_prevent_updates( int $post_id ): bool {
 		// Check if the REST request is present and is for this post. If so, use
 		// the request meta value if it was passed.
 		if (
-			$this->rest_request
+			$this->rest_request instanceof WP_REST_Request
 			&& isset( $this->rest_request['id'] )
 			&& $this->rest_request['id'] === $post_id
 			&& isset( $this->rest_request['meta'] )
