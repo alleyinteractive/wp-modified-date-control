@@ -9,6 +9,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\Property\RemoveUselessVarTagRector;
 
 return RectorConfig::configure()
 	->withParallel()
@@ -54,4 +55,7 @@ return RectorConfig::configure()
 	 *
 	 * @link https://getrector.com/documentation/ignoring-rules-or-paths
 	 */
-	->withSkip( [] );
+	->withSkip( [
+		// Squiz.Commenting.VariableComment requires the @var tag.
+		RemoveUselessVarTagRector::class,
+	] );
