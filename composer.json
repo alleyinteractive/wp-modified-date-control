@@ -24,6 +24,7 @@
     "require-dev": {
         "alleyinteractive/alley-coding-standards": "^2.0",
         "mantle-framework/testkit": "^1.0",
+        "rector/rector": "^2.0",
         "szepeviktor/phpstan-wordpress": "^2.0"
     },
     "config": {
@@ -51,12 +52,22 @@
     "scripts": {
         "phpcbf": "phpcbf .",
         "phpcs": "phpcs .",
-        "phpunit": "phpunit",
         "phpstan": "phpstan --memory-limit=512M",
-        "release": "npx @alleyinteractive/create-release@latest",
-        "test": [
+        "lint": [
             "@phpcs",
             "@phpstan",
+            "@rector"
+        ],
+        "lint:fix": [
+            "@rector:fix",
+            "@phpcbf"
+        ],
+        "phpunit": "phpunit",
+        "rector:fix": "rector process",
+        "rector": "rector process --dry-run",
+        "release": "npx @alleyinteractive/create-release@latest",
+        "test": [
+            "@lint",
             "@phpunit"
         ]
     }
